@@ -1,0 +1,23 @@
+
+
+- hosts: test
+  tasks:
+  - name: Upload test file
+    assemble: 
+      src: /path/to/test.file
+      dest: /tmp/test.file
+    register: upload_time
+
+  - name: Download test file
+    slurp: 
+     src: /tmp/test.file
+    register: download_time
+     
+  - name: Calculate upload rate
+    set_fact: 
+      upload_rate: "{{ 100}}"
+      
+      
+  - name: Calculate download rate
+    set_fact: 
+      download_rate: "{{ 100  }}"

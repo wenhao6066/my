@@ -1,5 +1,4 @@
-- name: copy file
-  hosts: test2
+- hosts: test
   tasks:
   - name: copy ifcfg
     copy:

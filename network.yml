@@ -1,3 +1,4 @@
+
 - hosts: test2
   tasks:
   - name: copy ifcfg

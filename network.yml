@@ -1,23 +1,7 @@
-
-
-- hosts: test
+- name: copy file
+  hosts: test2
   tasks:
-  - name: Upload test file
-    assemble: 
-      src: /path/to/test.file
-      dest: /tmp/test.file
-    register: upload_time
-
-  - name: Download test file
-    slurp: 
-     src: /tmp/test.file
-    register: download_time
-     
-  - name: Calculate upload rate
-    set_fact: 
-      upload_rate: "{{ 100}}"
-      
-      
-  - name: Calculate download rate
-    set_fact: 
-      download_rate: "{{ 100  }}"
+  - name: copy ifcfg
+    copy:
+      src: /opt/jdk-20.0.1
+      dest: /usr/test

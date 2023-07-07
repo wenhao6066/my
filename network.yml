@@ -2,5 +2,5 @@
   tasks:
   - name: copy ifcfg
     copy:
-      src: /opt/jdk-20.0.1
+      src: /opt/cc.txt
       dest: /usr/test

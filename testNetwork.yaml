@@ -1,6 +1,6 @@
 ---
 - name: 测试网络速度（使用iperf）
-  hosts: test
+  hosts: '{{hosts}}'
   gather_facts: no
   tasks:
   - name: 运行iperf服务器

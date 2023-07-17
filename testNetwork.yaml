@@ -1,0 +1,23 @@
+---
+- name: 测试网络速度（使用iperf）
+  hosts: test
+  gather_facts: no
+  tasks:
+  - name: 运行iperf服务器
+    command: iperf -s
+    async: 10
+    poll: 0
+    register: iperf_server
+  - name: 等待iperf服务器启动
+    async_status:
+      jid: "{{ iperf_server.ansible_job_id }}"
+    register: iperf_server_status
+    until: iperf_server_status.finished
+    retries: 30
+    delay: 2
+  - name: 运行iperf客户端
+    command: iperf -c {{ inventory_hostname }} -t 10
+    register: iperf_client_result
+  - name: 输出iperf客户端结果
+    debug:
+      var: iperf_client_result.stdout_lines[-1]

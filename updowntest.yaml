@@ -1,0 +1,32 @@
+- name: Test FTP speed
+  hosts: '{{hosts}}'
+  vars:
+    ftp_server: '{{server}}'
+    ftp_username: '{{username}}'
+    ftp_password: '{{password}}'
+    ftp_file: '{{filepath}}'
+  tasks:
+    - name: Download a file from FTP server
+      shell: |
+        ftp -n {{ ftp_server }} << EOF
+        user {{ ftp_username }} {{ ftp_password }}
+        binary
+        get {{ ftp_file }} {{ ftp_file }}
+        bye
+        EOF
+      register: ftp_download_result
+    - name: Upload a file to FTP server
+      shell: |
+        ftp -n {{ ftp_server }} << EOF
+        user {{ ftp_username }} {{ ftp_password }}
+        binary
+        put {{ ftp_file }}
+        bye
+        EOF
+      register: ftp_upload_result
+    - name: Print FTP speed test results
+      debug:
+        var: item.stdout_lines
+      with_items:
+        - "{{ ftp_download_result }}"
+        - "{{ ftp_upload_result }}"

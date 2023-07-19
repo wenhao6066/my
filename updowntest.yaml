@@ -2,14 +2,16 @@
   hosts: '{{hosts}}'
   vars:
     ftp_server: '{{server}}'
-    ftp_username: '{{username}}'
-    ftp_password: '{{password}}'
+    get_ftp_username: '{{getusername}}'
+    get_ftp_password: '{{getpassword}}'
     ftp_file: '{{filepath}}'
+    put_ftp_username:'{{putusername}}'
+    put_ftp_password:'{{putpassword}}'
   tasks:
     - name: Download a file from FTP server
       shell: |
         ftp -n {{ ftp_server }} << EOF
-        user {{ ftp_username }} {{ ftp_password }}
+        user {{ get_ftp_username }} {{ get_ftp_password }}
         binary
         get {{ ftp_file }} {{ ftp_file }}
         bye
@@ -18,7 +20,7 @@
     - name: Upload a file to FTP server
       shell: |
         ftp -n {{ ftp_server }} << EOF
-        user {{ ftp_username }} {{ ftp_password }}
+        user {{ put_ftp_username }} {{ put_ftp_password }}
         binary
         put {{ ftp_file }}
         bye

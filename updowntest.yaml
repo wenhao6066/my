@@ -5,8 +5,8 @@
     get_ftp_username: '{{getusername}}'
     get_ftp_password: '{{getpassword}}'
     ftp_file: '{{filepath}}'
-    put_ftp_username:'{{putusername}}'
-    put_ftp_password:'{{putpassword}}'
+    put_ftp_username: '{{putusername}}'
+    put_ftp_password: '{{putpassword}}'
   tasks:
     - name: Download a file from FTP server
       shell: |

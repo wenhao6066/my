@@ -30,5 +30,5 @@
       debug:
         var: item.stdout_lines
       with_items:
-        - "{{ ftp_download_result }}"
+        - "{{ ftp_download_result.start }}--> {{ ftp_download_result.end }}"
         - "{{ ftp_upload_result }}"

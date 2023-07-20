@@ -27,8 +27,5 @@
         EOF
       register: ftp_download_result
     - name: Print FTP speed test results
-      debug:
-        var: item.stdout_lines
-      with_items:
-        - "{{ ftp_download_result.start }}--> {{ ftp_download_result.end }}"
-        - "{{ ftp_upload_result }}"
+      debug: 
+       msg: "*{'doStart':'{{ ftp_download_result.start}}','doEnd':'{{ftp_download_result.end}}' 'upStart':'{{ ftp_upload_result.start}}',upEnd:'{{ftp_upload_result.end}}','ip':'{{ansible_host}}'}*"

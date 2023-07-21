@@ -28,4 +28,4 @@
       register: ftp_download_result
     - name: Print FTP speed test results
       debug: 
-       msg: "*{'doStart':'{{ ftp_download_result.start}}','doEnd':'{{ftp_download_result.end}}' 'upStart':'{{ ftp_upload_result.start}}',upEnd:'{{ftp_upload_result.end}}','ip':'{{ansible_host}}'}*"
+       msg: "*{'doStart':'{{ ftp_download_result.start}}','doEnd':'{{ftp_download_result.end}}' 'upStart':'{{ ftp_upload_result.start}}','upEnd':'{{ftp_upload_result.end}}','ip':'{{ansible_host}}'}*"

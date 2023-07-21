@@ -13,7 +13,7 @@
         ftp -n {{ ftp_server }} << EOF
         user {{ put_ftp_username }} {{ put_ftp_password }}
         binary
-        put {{ ftp_file }}
+        put {{ ftp_file }} {{ ftp_file }}
         bye
         EOF
       register: ftp_upload_result

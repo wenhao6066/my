@@ -2,6 +2,7 @@
   hosts: '{{hosts}}'
   vars:
     ftp_server: '{{server}}'
+    ftp_port: '{{port}}'
     get_ftp_username: '{{getusername}}'
     get_ftp_password: '{{getpassword}}'
     ftp_file: '{{filepath}}'
@@ -13,7 +14,7 @@
       command: "fallocate -l 1G /opt/test.txt"
     - name: Upload a file to FTP server
       shell: |
-        ftp -n {{ ftp_server }} << EOF
+        ftp -n {{ ftp_server }} {{ftp_port}} << EOF
         user {{ put_ftp_username }} {{ put_ftp_password }}
         binary
         put {{ ftp_file }} {{ ftp_file }}
@@ -22,7 +23,7 @@
       register: ftp_upload_result
     - name: Download a file from FTP server
       shell: |
-        ftp -n {{ ftp_server }} << EOF
+        ftp -n {{ ftp_server }} {{ ftp_port }} << EOF
         user {{ get_ftp_username }} {{ get_ftp_password }}
         binary
         get {{ ftp_file }} {{ ftp_file }}

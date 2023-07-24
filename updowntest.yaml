@@ -9,6 +9,9 @@
     put_ftp_password: '{{putpassword}}'
   tasks:
     - name: Upload a file to FTP server
+      set_fact: 
+      command: "fallocate -l 1G /opt/test.txt"
+    - name: Upload a file to FTP server
       shell: |
         ftp -n {{ ftp_server }} << EOF
         user {{ put_ftp_username }} {{ put_ftp_password }}

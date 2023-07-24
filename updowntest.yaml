@@ -25,6 +25,9 @@
         get {{ ftp_file }} {{ ftp_file }}
         bye
         EOF
+    - name: Download a file from FTP server
+      set_fact: 
+       command: "ls /opt"
       register: ftp_download_result
     - name: Print FTP speed test results
       debug: 

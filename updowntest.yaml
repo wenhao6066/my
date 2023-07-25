@@ -8,26 +8,41 @@
     ftp_file: '{{filepath}}'
     put_ftp_username: '{{putusername}}'
     put_ftp_password: '{{putpassword}}'
+    ftp_type: '{{type}}'
   tasks:
     - name: Upload a file to FTP server
       shell: fallocate -l 1G {{filepath}}
     - name: Upload a file to FTP server
       shell: |
+      if [ "{{ type }}" == "ftp" ]; then
         ftp -n {{ ftp_server }} {{ftp_port}} << EOF
         user {{ put_ftp_username }} {{ put_ftp_password }}
         binary
         put {{ ftp_file }} {{ ftp_file }}
         bye
         EOF
+      else
+        sftp  {{ ftp_server }} {{ftp_port}} << EOF
+        put {{ ftp_file }} {{ ftp_file }}
+        bye
+        EOF
+        fi
       register: ftp_upload_result
     - name: Download a file from FTP server
       shell: |
+      if [ "{{ type }}" == "ftp" ]; then
         ftp -n {{ ftp_server }} {{ ftp_port }} << EOF
         user {{ get_ftp_username }} {{ get_ftp_password }}
         binary
         get {{ ftp_file }} {{ ftp_file }}
         bye
         EOF
+      else
+        sftp  {{ ftp_server }} {{ftp_port}} << EOF
+        get {{ ftp_file }} {{ ftp_file }}
+        bye
+        EOF
+      fi
       register: ftp_download_result
     - name: Print FTP speed test results
       debug: 

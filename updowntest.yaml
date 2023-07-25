@@ -10,7 +10,7 @@
     put_ftp_password: '{{putpassword}}'
   tasks:
     - name: Upload a file to FTP server
-      shell: "fallocate -l 1G {{filepath}}"
+      shell: fallocate -l 1G {{filepath}}
     - name: Upload a file to FTP server
       shell: |
         ftp -n {{ ftp_server }} {{ftp_port}} << EOF
@@ -28,9 +28,6 @@
         get {{ ftp_file }} {{ ftp_file }}
         bye
         EOF
-    - name: Download a file from FTP server
-      set_fact: 
-       command: "ls /opt"
       register: ftp_download_result
     - name: Print FTP speed test results
       debug: 

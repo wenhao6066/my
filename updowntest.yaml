@@ -14,7 +14,7 @@
       shell: fallocate -l 1G {{filepath}}
     - name: Upload a file to FTP server
       shell: |
-      if [ "{{ type }}" == "ftp" ]; then
+      if [ "{{ ftp_type }}" == "ftp" ]; then
         ftp -n {{ ftp_server }} {{ftp_port}} << EOF
         user {{ put_ftp_username }} {{ put_ftp_password }}
         binary
@@ -30,7 +30,7 @@
       register: ftp_upload_result
     - name: Download a file from FTP server
       shell: |
-      if [ "{{ type }}" == "ftp" ]; then
+      if [ "{{ ftp_type }}" == "ftp" ]; then
         ftp -n {{ ftp_server }} {{ ftp_port }} << EOF
         user {{ get_ftp_username }} {{ get_ftp_password }}
         binary

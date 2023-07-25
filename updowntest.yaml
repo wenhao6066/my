@@ -14,35 +14,35 @@
       shell: fallocate -l 1G {{filepath}}
     - name: Upload a file to FTP server
       shell: |
-      if [ "{{ ftp_type }}" == "ftp" ]; then
+       if [ "{{ ftp_type }}" == "ftp" ]; then
         ftp -n {{ ftp_server }} {{ftp_port}} << EOF
         user {{ put_ftp_username }} {{ put_ftp_password }}
         binary
         put {{ ftp_file }} {{ ftp_file }}
         bye
         EOF
-      elif [ "{{ ftp_type }}" == "sftp" ]; then
+       else
         sftp  {{ ftp_server }} {{ftp_port}} << EOF
         put {{ ftp_file }} {{ ftp_file }}
         bye
         EOF
-        fi
+       fi
       register: ftp_upload_result
     - name: Download a file from FTP server
       shell: |
-      if [ "{{ ftp_type }}" == "ftp" ]; then
+       if [ "{{ ftp_type }}" == "ftp" ]; then
         ftp -n {{ ftp_server }} {{ ftp_port }} << EOF
         user {{ get_ftp_username }} {{ get_ftp_password }}
         binary
         get {{ ftp_file }} {{ ftp_file }}
         bye
         EOF
-      elif [ "{{ ftp_type }}" == "sftp" ]; then
+       else
         sftp  {{ ftp_server }} {{ftp_port}} << EOF
         get {{ ftp_file }} {{ ftp_file }}
         bye
         EOF
-      fi
+       fi
       register: ftp_download_result
     - name: Print FTP speed test results
       debug: 

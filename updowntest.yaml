@@ -21,7 +21,7 @@
         put {{ ftp_file }} {{ ftp_file }}
         bye
         EOF
-      else
+      elif [ "{{ ftp_type }}" == "sftp" ]; then
         sftp  {{ ftp_server }} {{ftp_port}} << EOF
         put {{ ftp_file }} {{ ftp_file }}
         bye
@@ -37,7 +37,7 @@
         get {{ ftp_file }} {{ ftp_file }}
         bye
         EOF
-      else
+      elif [ "{{ ftp_type }}" == "sftp" ]; then
         sftp  {{ ftp_server }} {{ftp_port}} << EOF
         get {{ ftp_file }} {{ ftp_file }}
         bye

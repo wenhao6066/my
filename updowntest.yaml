@@ -9,12 +9,14 @@
     put_ftp_username: '{{putusername}}'
     put_ftp_password: '{{putpassword}}'
     ftp_type: '{{type}}'
+    sftp_username: '{{sftpusername}}'
+    sftp_password: '{{sftppassword}}'
   tasks:
     - name: Upload a file to FTP server
       shell: fallocate -l 1G {{filepath}}
     - name: Upload a file to FTP server
       shell: |
-       if [ "{{ ftp_type }}" == "ftp" ]; then
+       if [ "{{ ftp_type }}" == "0" ]; then
         ftp -n {{ ftp_server }} {{ftp_port}} << EOF
         user {{ put_ftp_username }} {{ put_ftp_password }}
         binary
@@ -22,15 +24,20 @@
         bye
         EOF
        else
-        sftp  {{ ftp_server }} {{ftp_port}} << EOF
-        put {{ ftp_file }} {{ ftp_file }}
-        bye
+        expect << EOF            
+        spawn sftp {{sftp_username}}@{{ftp_server}}
+        expect "assword:"
+        send "{{sftp_password}}\r"
+        expect "sftp>"
+        send "put {{ftp_file}} {{ftp_file}}\r"
+        expect "sftp>"
+        send "bye \r"
         EOF
        fi
       register: ftp_upload_result
     - name: Download a file from FTP server
       shell: |
-       if [ "{{ ftp_type }}" == "ftp" ]; then
+       if [ "{{ ftp_type }}" == "0" ]; then
         ftp -n {{ ftp_server }} {{ ftp_port }} << EOF
         user {{ get_ftp_username }} {{ get_ftp_password }}
         binary
@@ -38,9 +45,14 @@
         bye
         EOF
        else
-        sftp  {{ ftp_server }} {{ftp_port}} << EOF
-        get {{ ftp_file }} {{ ftp_file }}
-        bye
+        expect << EOF      
+        spawn sftp {{sftp_username}}@{{ftp_server}}
+        expect "assword:"
+        send "{{sftp_password}}\r"
+        expect "sftp>"
+        send "get {{ftp_file}} {{ftp_file}}\r"
+        expect "sftp>"
+        send "bye \r"
         EOF
        fi
       register: ftp_download_result
